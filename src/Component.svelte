@@ -24,6 +24,7 @@
   let usageLanguage = lang['pt']
   
   export let clickEvent
+  export let removeCard
 
   let data = []
   
@@ -39,21 +40,42 @@
     keyChannels:[]
   }
 
+  function clearCards (){
+    if(dataProvider.rows){
+      data = dataProvider.rows
+      data.map(dataItem=>{
+        console.log(keys, 'ite,cleaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar', Object.keys(keys).length)   
+        keys[dataItem.key] = []
+      })
+    }
+  }
+
   $: {
     
     usageLanguage = lang[language ?? 'pt']
     if(dataProvider.rows){
       data = dataProvider.rows
       let counter = 0
+      console.log(data, 'rows')
+
+      
+      clearCards()
+
       data.map(dataItem=>{
+        
+        console.log(keys, 'ite,mmmmmmmmmmmmmmmmmmmmmmmmmmmm', Object.keys(keys).length)
+
         if(counter == 0) keys[dataItem.key] = []
         keys[dataItem.key].push({
           data: dataItem,
           description: mappingDescription ? dataItem[mappingDescription] : dataItem.description,
           title: mappingTitle ? dataItem[mappingTitle] : dataItem.title
         })
+
+        console.log('selected', keys)
         counter += 1
       })
+
       keyItems.set(keys)
     }
   }
@@ -64,13 +86,20 @@
     })
   }
 
+  async function removeFromCard(eventData){
+    console.log(eventData?.detail?.data, "compoentnet removed frommmmmmmmmmmmmmmmm data")
+    await removeCard({
+      data: JSON.parse(JSON.stringify(eventData?.detail?.data))
+    })
+  }
+
   const { styleable } = getContext("sdk")
   const component = getContext("component")
 </script>
 
 {#if dataProvider.rows.length > 0}
 <div use:styleable={$component.styles}>
-  <div class="container">
+  <div  class="container">
 		<div class="row">
       <div  class="col">
         <div class="head">
@@ -79,7 +108,7 @@
           </span>
           <span> {usageLanguage.keyPartners }</span>
         </div>
-        <Content color={cardColor ?? "#fdf092"} key={'keyPartners'} data={keys.keyPartners}   on:handleClick={(event)=> handleClick(event)} />
+        <Content color={cardColor ?? "#fdf092"} key={'keyPartners'} data={keys.keyPartners} on:removeFromCard={(event)=> removeFromCard(event)}   on:handleClick={(event)=> handleClick(event)} />
       </div>
       <div  class="col">
         <div class="child-col">
@@ -89,7 +118,7 @@
             </span>
             <span> {usageLanguage.keyActivites}</span>
           </div>
-          <Content color={cardColor ?? "#fdf092"} key={'keyActivites'} data={keys.keyActivites}   on:handleClick={(event)=> handleClick(event)} />
+          <Content color={cardColor ?? "#fdf092"} key={'keyActivites'} data={keys.keyActivites} on:removeFromCard={(event)=> removeFromCard(event)}   on:handleClick={(event)=> handleClick(event)} />
         </div>
         <div class="child-col">
           <div class="head">
@@ -98,7 +127,7 @@
             </span>
             <span>{usageLanguage.keyResources}</span>
           </div>
-          <Content color={cardColor ?? "#fdf092"} key={'keyResources'} data={keys.keyResources}   on:handleClick={(event)=> handleClick(event)} />
+          <Content color={cardColor ?? "#fdf092"} key={'keyResources'} data={keys.keyResources} on:removeFromCard={(event)=> removeFromCard(event)}   on:handleClick={(event)=> handleClick(event)} />
         </div>
       </div>
       <div class="col">
@@ -108,7 +137,7 @@
           </span>
           <span>{usageLanguage.keyPropositions}</span>
         </div>
-        <Content  color={cardColor ?? "#fdf092"} key={'keyPropositions'} data={keys.keyPropositions}   on:handleClick={(event)=> handleClick(event)} />
+        <Content  color={cardColor ?? "#fdf092"} key={'keyPropositions'} data={keys.keyPropositions} on:removeFromCard={(event)=> removeFromCard(event)}   on:handleClick={(event)=> handleClick(event)} />
       </div>
       <div class="col">
         <div class="child-col">
@@ -118,7 +147,7 @@
             </span>
             <span>{usageLanguage.keyRelationships}</span>
           </div>
-          <Content color={cardColor ?? "#fdf092"} key={'keyRelationships'} data={keys.keyRelationships}   on:handleClick={(event)=> handleClick(event)} />
+          <Content color={cardColor ?? "#fdf092"} key={'keyRelationships'} data={keys.keyRelationships} on:removeFromCard={(event)=> removeFromCard(event)}  on:handleClick={(event)=> handleClick(event)} />
         </div>
         <div class="child-col">
           <div class="head">
@@ -127,7 +156,7 @@
             </span>
             <span>{usageLanguage.keyChannels} </span>
           </div>
-          <Content color={cardColor ?? "#fdf092"} key={'keyChannels'} data={keys.keyChannels}   on:handleClick={(event)=> handleClick(event)} />
+          <Content color={cardColor ?? "#fdf092"} key={'keyChannels'} data={keys.keyChannels} on:removeFromCard={(event)=> removeFromCard(event)}   on:handleClick={(event)=> handleClick(event)} />
         </div>
       </div>
       <div class="col">
@@ -137,7 +166,7 @@
           </span>
           <span>{usageLanguage.keySegments}</span>
         </div>
-        <Content color={cardColor ?? "#fdf092"} key={'keySegments'} data={keys.keySegments}   on:handleClick={(event)=> handleClick(event)} />
+        <Content color={cardColor ?? "#fdf092"} key={'keySegments'} data={keys.keySegments} on:removeFromCard={(event)=> removeFromCard(event)}   on:handleClick={(event)=> handleClick(event)} />
       </div>
 		</div>
 	
@@ -149,7 +178,7 @@
           </span>
           <span>{usageLanguage.keyStructure}</span>
         </div>
-        <Content color={cardColor ?? "#fdf092"} key={'keyStructure'} data={keys.keyStructure}   on:handleClick={(event)=> handleClick(event)} />
+        <Content color={cardColor ?? "#fdf092"} key={'keyStructure'} data={keys.keyStructure} on:removeFromCard={(event)=> removeFromCard(event)}   on:handleClick={(event)=> handleClick(event)} />
       </div>
 			<div class="col">
         <div class="head">
@@ -158,12 +187,13 @@
           </span>
           <span>{usageLanguage.keyStreams}</span>
         </div>
-        <Content color={cardColor ?? "#fdf092"} key={'keyStreams'} data={keys.keyStreams}   on:handleClick={(event)=> handleClick(event)} />
+        <Content color={cardColor ?? "#fdf092"} key={'keyStreams'} data={keys.keyStreams}  on:removeFromCard={(event)=> removeFromCard(event)} on:handleClick={(event)=> handleClick(event)} />
 			</div>
 		</div>
   </div>
 </div>
 {/if}
+
 <style>
 	.container{
 		max-width: 100%;
