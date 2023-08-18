@@ -1,8 +1,8 @@
 export default {
     en:{
-        keyPartners: "Key Partners",
+        keyPartners: "Key Partnerships",
         keyResources: "Key Resources",
-        keyActivites: "Key Activites",
+        keyActivites: "Key Activities",
         keyPropositions: "Value Propositions",
         keyRelationships: "Customer Relationships",
         keySegments: "Customer Segments",
@@ -11,14 +11,14 @@ export default {
         keyChannels: "Channels"
     },
     pt:{
-        keyPartners: "Principais Parceiros",
-        keyResources: "Principais recursos",
-        keyActivites: "Principais Atividades",
-        keyPropositions: "Propostas de valor",
-        keyRelationships: "Relações com o consumidor",
-        keySegments: "Segmentos de clientes",
-        keyStructure: "Estrutura de custos",
-        keyStreams: "Fontes de receita",
+        keyPartners: "Parcerias Principais",
+        keyResources: "Recursos-Chave",
+        keyActivites: "Atividades-Chave",
+        keyPropositions: "Proposta de Valor",
+        keyRelationships: "Relacionamento com Clientes",
+        keySegments: "Segmentos de Clientes",
+        keyStructure: "Estrutura de Custos",
+        keyStreams: "Fontes de Receita",
         keyChannels: "Canais"
     }
 }
